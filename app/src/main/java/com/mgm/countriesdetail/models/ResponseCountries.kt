@@ -2,6 +2,7 @@ package com.mgm.countriesdetail.models
 
 class ResponseCountries : ArrayList<ResponseCountries.ResponseCountriesItem>(){
     data class ResponseCountriesItem(
+        var id: Int? = null,
         val capital: List<String> = listOf(),
         val cca2: String = "",
         val cca3: String = "",

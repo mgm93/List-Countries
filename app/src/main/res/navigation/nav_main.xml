@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/countriesListFragment"
         android:name="com.mgm.countriesdetail.ui.list_countries.CountriesListFragment"
-        android:label="fragment_list_countries"
+        android:label="@string/countries_fragment_label"
         tools:layout="@layout/fragment_list_countries" >
         <action
             android:id="@+id/action_countriesListFragment_to_countryDetailsFragment"
@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/countryDetailsFragment"
         android:name="com.mgm.countriesdetail.ui.country_detail.CountryDetailsFragment"
-        android:label="fragment_country_details"
+        android:label="@string/country_fragment_label"
         tools:layout="@layout/fragment_country_details" />
 </navigation>

@@ -2,17 +2,18 @@ package com.mgm.countriesdetail.ui.list_countries
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
+import com.mgm.countriesdetail.R
+import com.mgm.countriesdetail.databinding.ActivityMainBinding
 import com.mgm.countriesdetail.databinding.FragmentListCountriesBinding
 import com.mgm.countriesdetail.ui.list_countries.adapter.ListCountryAdapter
 import com.mgm.countriesdetail.viewmodel.CountriesListViewModel
-import com.sample.adapters.CountriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,10 +25,8 @@ class CountriesListFragment : Fragment() {
     @Inject
     lateinit var listCountryAdapter: ListCountryAdapter
 
-    private lateinit var countriesAdapter: CountriesAdapter
-
     //Other
-    private val viewModel : CountriesListViewModel by viewModels()
+    private val viewModel: CountriesListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,38 +41,45 @@ class CountriesListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         //Call get All countries
         viewModel.getListCountries()
-
-        countriesAdapter = CountriesAdapter { binding, countryInfo ->
-
-            val action =
-                CountriesListFragmentDirections.actionCountriesListFragmentToCountryDetailsFragment()
-
-            findNavController()
-                .navigate(
-                    action,
-                    FragmentNavigatorExtras(
-                        binding.flag to "flag_transition"
-                    )
-                )
-
-        }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //InitViews
         binding.apply {
-            //init Built dates recycler
-            recyclerCountries.apply { adapter = countriesAdapter }
+            //init Countries recycler
             viewModel.list.observe(viewLifecycleOwner) {
+                Log.d("MGM", "Size: ${it.size}")
                 //set date to adapter
-//                listCountryAdapter.differ.submitList(it)
-                Log.d("MGM","Size: ${it.size}")
-                countriesAdapter.setItems(it)
+                listCountryAdapter.addItems(it.sortedBy { o -> o.name.official })
+                recyclerCountries.apply { adapter = listCountryAdapter }
 
             }
+            //set search listener
+            viewModel.searchQuery.observe(viewLifecycleOwner) {
+                listCountryAdapter.search(it) { notFound ->
+
+                }
+            }
+            setSearchBar()
+
         }
+    }
+
+    //Set up Menu
+    private fun setSearchBar() {
+        val menuItem: MenuItem? = binding.toolbar.menu.findItem(R.id.action_search)
+        val searchView: SearchView = menuItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.setSearchQuery(newText)
+                return true
+            }
+        })
     }
 
 }

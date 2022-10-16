@@ -1,4 +1,4 @@
-package com.sample.adapters
+package com.mgm.countriesdetail.ui.list_countries.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

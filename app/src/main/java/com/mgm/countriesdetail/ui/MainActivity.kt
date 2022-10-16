@@ -2,10 +2,16 @@ package com.mgm.countriesdetail.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.mgm.countriesdetail.R
 import com.mgm.countriesdetail.databinding.ActivityMainBinding
+import com.mgm.countriesdetail.viewmodel.CountriesListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     //Navigation
     private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             //Navigation
             navController = findNavController(R.id.navHost)
+            appBarConfiguration = AppBarConfiguration(navController.graph)
+            setupActionBarWithNavController(navController, appBarConfiguration)
         }
     }
 
@@ -31,4 +40,5 @@ class MainActivity : AppCompatActivity() {
     override fun onNavigateUp(): Boolean {
         return navController.navigateUp() || super.onNavigateUp()
     }
+
 }

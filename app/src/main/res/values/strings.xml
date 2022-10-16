@@ -2,5 +2,8 @@
     <string name="app_name">CountriesDetail</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="countries_fragment_label">Countries List</string>
+    <string name="country_fragment_label">Country Detail</string>
     <string name="country_flag">Country Flag</string>
+    <string name="search">Search The Name Of Country</string>
 </resources>
