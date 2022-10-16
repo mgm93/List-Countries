@@ -48,6 +48,7 @@ class ApiModule {
         .connectTimeout(time, TimeUnit.SECONDS)
         .readTimeout(time, TimeUnit.SECONDS)
         .writeTimeout(time, TimeUnit.SECONDS)
+        .addInterceptor(interceptor)
         .build()
 
     @Provides

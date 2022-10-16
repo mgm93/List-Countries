@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.mgm.countriesdetail.databinding.ItemCountryBinding
-import com.mgm.countriesdetail.models.ResponseCountries.*
+import com.mgm.countriesdetail.models.CountryInfo
 import javax.inject.Inject
 
 /**
@@ -34,19 +34,19 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
 
     inner class ViewHolder : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
-        fun bind(item : ResponseCountriesItem){
+        fun bind(item : CountryInfo){
             binding.apply {
-                officialName.text = item.name.official
-                capital.text = "Capital: ${item.capital[0]}"
+                officialName.text = item.name!!.official
+                capital.text = "Capital: ${item.capital?.get(0)}"
                 region.text = "Region: ${item.region}"
-                flag.load(item.flags.png) {
+                flag.load(item.flags?.png) {
                     crossfade(true)
                     crossfade(500)
                 }
                 //click
                 root.setOnClickListener {
                     onItemClickListener?.let {
-                        it(item.cca3)
+                        it(item.name!!.common)
                     }
                 }
             }
@@ -60,15 +60,15 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
         onItemClickListener = listener
     }
 
-    private val differCallBack = object : DiffUtil.ItemCallback<ResponseCountriesItem>(){
-        override fun areItemsTheSame(oldItem: ResponseCountriesItem, newItem: ResponseCountriesItem): Boolean {
-            return oldItem.cca3 == newItem.cca3
+    private val differCallBack = object : DiffUtil.ItemCallback<CountryInfo>(){
+        override fun areItemsTheSame(oldItem: CountryInfo, newItem: CountryInfo): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ResponseCountriesItem, newItem: ResponseCountriesItem): Boolean {
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: CountryInfo, newItem: CountryInfo): Boolean {
             return oldItem == newItem
         }
-
     }
 
     var differ = AsyncListDiffer(this, differCallBack)
