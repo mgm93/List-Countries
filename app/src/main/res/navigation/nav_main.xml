@@ -10,13 +10,21 @@
         android:name="com.mgm.countriesdetail.ui.list_countries.CountriesListFragment"
         android:label="@string/countries_fragment_label"
         tools:layout="@layout/fragment_list_countries" >
-        <action
-            android:id="@+id/action_countriesListFragment_to_countryDetailsFragment"
-            app:destination="@id/countryDetailsFragment" />
     </fragment>
+    <action
+        android:id="@+id/actionToCountryDetailsFragment"
+        app:destination="@id/countryDetailsFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/countryDetailsFragment"
         android:name="com.mgm.countriesdetail.ui.country_detail.CountryDetailsFragment"
         android:label="@string/country_fragment_label"
-        tools:layout="@layout/fragment_country_details" />
+        tools:layout="@layout/fragment_country_details" >
+        <argument
+            android:name="cca3"
+            app:argType="string" />
+    </fragment>
 </navigation>

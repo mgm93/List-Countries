@@ -6,6 +6,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.mgm.countriesdetail.R
 import com.mgm.countriesdetail.databinding.ActivityMainBinding
 import com.mgm.countriesdetail.databinding.FragmentListCountriesBinding
@@ -57,6 +58,21 @@ class CountriesListFragment : Fragment() {
             viewModel.searchQuery.observe({ lifecycle }) {
                 listCountryAdapter.search(it) { notFound ->
 
+                }
+            }
+
+            listCountryAdapter.setOnItemClickListener {
+                val direction = CountriesListFragmentDirections.actionToCountryDetailsFragment(it)
+                findNavController().navigate(direction)
+            }
+
+            viewModel.isLoading.observe(viewLifecycleOwner){
+                if(it){
+                    loading.visibility = View.VISIBLE
+                    layCountries.visibility = View.GONE
+                }else{
+                    loading.visibility = View.GONE
+                    layCountries.visibility = View.VISIBLE
                 }
             }
 

@@ -1,17 +1,13 @@
 package com.mgm.countriesdetail.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.activity.viewModels
-import androidx.appcompat.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mgm.countriesdetail.R
 import com.mgm.countriesdetail.databinding.ActivityMainBinding
-import com.mgm.countriesdetail.viewmodel.CountriesListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +35,13 @@ class MainActivity : AppCompatActivity() {
     //Handle back
     override fun onNavigateUp(): Boolean {
         return navController.navigateUp() || super.onNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id == R.id.countriesListFragment) {
+            finish()
+        } else
+            super.onBackPressed()
     }
 
 }
