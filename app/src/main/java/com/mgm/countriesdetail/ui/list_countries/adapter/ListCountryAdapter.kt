@@ -36,6 +36,7 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
 
     override fun onBindViewHolder(holder: ListCountryAdapter.ViewHolder, position: Int) {
         holder.bind(searchableList[position])
+        holder.setIsRecyclable(false)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -58,7 +59,7 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
                 officialName.text = item.name.official
                 var capitalName = ""
                 if (item.capital.isNotEmpty())
-                    capitalName = "Capital: ${item.capital[0]}"
+                    capitalName = item.capital[0]
                 capital.text = "Capital: $capitalName"
                 region.text = "Region: ${item.region}"
                 flag.load(item.flags.png) {
@@ -98,6 +99,7 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
     override fun getFilter(): Filter {
         return object : Filter(){
             private val filterResults = FilterResults()
+            @SuppressLint("NotifyDataSetChanged")
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charString = constraint.toString()
                 searchableList.clear()
@@ -120,7 +122,6 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 // no need to use "results" filtered list provided by this method.
                 searchResultCallBack?.invoke(searchableList.isNullOrEmpty())
-
                 notifyDataSetChanged()
             }
 

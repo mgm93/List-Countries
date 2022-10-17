@@ -2,10 +2,7 @@ package com.mgm.countriesdetail.ui.list_countries
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -27,6 +24,7 @@ class CountriesListFragment : Fragment() {
 
     //Other
     private val viewModel: CountriesListViewModel by viewModels()
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,20 +54,26 @@ class CountriesListFragment : Fragment() {
 
             }
             //set search listener
-            viewModel.searchQuery.observe(viewLifecycleOwner) {
+            viewModel.searchQuery.observe({ lifecycle }) {
                 listCountryAdapter.search(it) { notFound ->
 
                 }
             }
-            setSearchBar()
 
         }
+        setHasOptionsMenu(true)
     }
 
-    //Set up Menu
-    private fun setSearchBar() {
-        val menuItem: MenuItem? = binding.toolbar.menu.findItem(R.id.action_search)
-        val searchView: SearchView = menuItem?.actionView as SearchView
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        searchView = searchItem.actionView as SearchView
+
+        val pendingQuery = viewModel.searchQuery.value
+        if (pendingQuery != null && pendingQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(pendingQuery, false)
+        }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
