@@ -1,7 +1,5 @@
 package com.mgm.countriesdetail.models
 
-import androidx.databinding.Bindable
-
 class ResponseCountries : ArrayList<ResponseCountries.ResponseCountriesItem>(){
     data class ResponseCountriesItem(
         var id: Int? = null,
