@@ -38,13 +38,6 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onNavigateUp()
     }
 
-    override fun onBackPressed() {
-        if (navController.currentDestination?.id == R.id.countriesListFragment) {
-            finish()
-        } else
-            super.onBackPressed()
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         return  navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
