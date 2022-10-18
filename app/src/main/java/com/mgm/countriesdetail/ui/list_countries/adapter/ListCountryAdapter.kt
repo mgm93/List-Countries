@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.mgm.countriesdetail.databinding.ItemCountryBinding
-import com.mgm.countriesdetail.models.CountryInfo
 import com.mgm.countriesdetail.models.ResponseCountries.*
 import javax.inject.Inject
 
@@ -42,10 +39,10 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
     @SuppressLint("NotifyDataSetChanged")
     fun addItems(list :List<ResponseCountriesItem>){
         this.searchableList.clear()
+        this.originalList.clear()
         list.let {
             this.searchableList.addAll(it)
             originalList.addAll(it)
-            differ.submitList(searchableList)
         }
         notifyDataSetChanged()
     }
@@ -83,19 +80,6 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
         onItemClickListener = listener
     }
 
-    private val differCallBack = object : DiffUtil.ItemCallback<ResponseCountriesItem>(){
-        override fun areItemsTheSame(oldItem: ResponseCountriesItem, newItem: ResponseCountriesItem): Boolean {
-            return oldItem.name.official == newItem.name.official
-        }
-
-        @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: ResponseCountriesItem, newItem: ResponseCountriesItem): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    var differ = AsyncListDiffer(this, differCallBack)
-
     override fun getFilter(): Filter {
         return object : Filter(){
             private val filterResults = FilterResults()
@@ -110,11 +94,11 @@ class ListCountryAdapter @Inject constructor(): RecyclerView.Adapter<ListCountry
                         originalList.filter {
                             it.name.official.lowercase().contains(charString.lowercase())
                         }
+                    searchableList.clear()
                     searchableList.addAll(searchResults)
                 }
                 return filterResults.also {
                     it.values = searchableList
-                    differ.submitList(searchableList)
                 }
             }
 

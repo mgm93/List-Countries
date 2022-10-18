@@ -58,7 +58,8 @@ class CountryDetailsFragment : Fragment() {
                     crossfade(true)
                     crossfade(100)
                 }
-                txtCapital.text = "Capital: ${it!!.capital[0]}"
+                val capital = if(it.capital.isNotEmpty()) it.capital[0] else ""
+                txtCapital.text = "Capital: $capital"
                 txtRegion.text = "Region: ${it.region}"
                 txtSubRegion.text = "Sub Region: ${it.subregion}"
                 txtPopulation.text = "Population: ${it.population}"
