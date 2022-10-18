@@ -15,8 +15,6 @@ class CountriesListViewModel @Inject constructor(private val repository: Reposit
     val isLoading = MutableLiveData<Boolean>()
 
     val searchQuery = MutableLiveData<String>()
-    /*private val _searchQuery = MutableLiveData<String>()
-    val searchQuery: LiveData<String> = _searchQuery*/
 
     fun getListCountries() = viewModelScope.launch {
         isLoading.postValue(true)
