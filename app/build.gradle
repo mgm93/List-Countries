@@ -76,4 +76,6 @@ dependencies {
     implementation 'io.coil-kt:coil:1.4.0'
     //Dynamic sizes
     implementation 'com.github.MrNouri:DynamicSizes:1.0'
+    //Lottie
+    implementation "com.airbnb.android:lottie:5.2.0"
 }

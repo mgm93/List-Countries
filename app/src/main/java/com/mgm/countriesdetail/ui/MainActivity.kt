@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mgm.countriesdetail.R
 import com.mgm.countriesdetail.databinding.ActivityMainBinding
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
             finish()
         } else
             super.onBackPressed()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return  navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
 }
